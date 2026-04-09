@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ─────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #0f172a;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Custom scrollbar ────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 3px;
+}
+
+/* ── Hero gradient ───────────────────────── */
+.hero-gradient {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 40%, #eff6ff 100%);
+  position: relative;
+}
+
+.hero-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 70% 50%,
+    rgba(59, 130, 246, 0.12) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Gradient text ───────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassmorphism ───────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── All @apply inside @layer components ── */
+@layer components {
+  .section-pad {
+    @apply py-20 lg:py-28;
+  }
+
+  .container-xl {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700
+           text-white font-semibold px-6 py-3 rounded-full
+           transition-all duration-300 shadow-lg
+           hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border-2 border-blue-600
+           text-blue-600 hover:bg-blue-600 hover:text-white
+           font-semibold px-6 py-3 rounded-full transition-all duration-300
+           hover:-translate-y-0.5;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border
+           hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+    border-color: #f1f5f9;
+  }
+
+  .section-label {
+    @apply inline-flex items-center gap-2 text-blue-600 font-semibold text-sm
+           uppercase tracking-widest mb-3;
+  }
+
+  .section-label::before {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: #2563eb;
+    border-radius: 2px;
+  }
+
+  .timeline-dot {
+    @apply w-4 h-4 rounded-full border-4 z-10 flex-shrink-0;
+    background-color: #2563eb;
+    border-color: #dbeafe;
+  }
+
+  .step-circle {
+    @apply w-10 h-10 rounded-full flex items-center justify-center
+           font-bold text-sm transition-all duration-300 cursor-pointer;
+  }
+
+  .form-input {
+    @apply w-full rounded-xl px-4 py-3 text-sm
+           focus:outline-none focus:ring-2 focus:ring-blue-400
+           transition-all duration-200 bg-white;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+  }
+
+  .form-input::placeholder {
+    color: #94a3b8;
+  }
+
+  .faq-item {
+    @apply rounded-2xl overflow-hidden transition-all duration-300;
+    border: 1px solid #f1f5f9;
+  }
+}
+
+/* ── nav-link (pseudo-elements can't use @apply cleanly) ── */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #475569;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #2563eb;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #3b82f6;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: #2563eb;
+}
