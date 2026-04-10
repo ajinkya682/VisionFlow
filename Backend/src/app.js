@@ -3,6 +3,7 @@ import cors from "cors"
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import authRoutes from "./routes/authRoutes.js"
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.use(express.urlencoded({ extended: true }))
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "Server is running" })
 })
+
+//route
+app.use("/api/auth", authRoutes ) 
 
 
 export default app;

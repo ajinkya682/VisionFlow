@@ -8,4 +8,6 @@ const adminSchema = new mongoose.Schema({
   avatar: { type: String, default: '' }, // ImageKit URL
 }, { timestamps: true });
 
-module.exports = mongoose.model('Admin', adminSchema);
+const adminModel = mongoose.model('Admin', adminSchema);
+
+export default adminModel
