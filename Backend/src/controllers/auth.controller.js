@@ -9,6 +9,14 @@ const generateToken = (id, role) => {
     });
 };
 
+// Cookie options
+const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 
 /**
  * @description Register new user
@@ -36,10 +44,7 @@ export const register = async (req, res) => {
         });
 
         const token = generateToken(admin._id, admin.role);
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: false,
-        })
+        res.cookie("token", token, cookieOptions)
 
         res.status(201).json({
             success: true,
@@ -58,3 +63,50 @@ export const register = async (req, res) => {
 };
 
 // Login
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const admin = await adminModel.findOne({ email });
+        if (!admin) {
+            return res.status(401).json({ message: "Admin not found" });
+        }
+
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credential" })
+        }
+
+        const token = generateToken(admin._id, admin.role);
+        res.cookie("token", token, cookieOptions);
+
+        res.status(200).json({
+            success: true,
+            token,
+            admin: {
+                id: admin._id,
+                name: admin.name,
+                email: admin.email,
+                role: admin.role
+            }
+        })
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Logout
+export const logout = async (req, res) => {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logged out Successfully" })
+}
+
+// getMe
+export const getMe = async (req, res) => {
+  try {
+    const admin = await adminModel.findById(req.admin.id).select("-password");
+    res.status(200).json({ success: true, admin });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
