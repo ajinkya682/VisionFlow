@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes.js"
 import appointmentRoutes from "./routes/appointmentRoutes.js"
+import patientRoutes from "./routes/patientRoutes123.js";
 
 const app = express();
 
@@ -39,5 +40,7 @@ app.use("/api/auth", authRoutes)
 // appointment route
 app.use("/api/appointments", appointmentRoutes)
 
+// patient routes
+app.use("/api/patients", patientRoutes )
 
 export default app;

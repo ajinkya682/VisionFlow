@@ -84,7 +84,7 @@ export const getAllAppointments = async (req, res) => {
 
     const appointments = await appointModel.find(filter)
       .populate("assignedDoctor", "name email")
-      .sort({ isUrgent: -1, createdAt: -1 }); // urgent pehle
+      .sort({ isUrgent: -1, createdAt: -1 }); //< if urgent 
 
     res.status(200).json({ success: true, appointments });
 
