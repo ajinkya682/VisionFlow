@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes.js"
+import appointmentRoutes from "./routes/appointmentRoutes.js"
 
 const app = express();
 
@@ -33,7 +34,10 @@ app.get("/health", (req, res) => {
 })
 
 //route
-app.use("/api/auth", authRoutes ) 
+app.use("/api/auth", authRoutes)
+
+// appointment route
+app.use("/api/appointments", appointmentRoutes)
 
 
 export default app;
